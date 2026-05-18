@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hospital Guide for International Students</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 1. Splash / Language Selection Screen -->
+        <div id="splash-screen" class="screen active">
+            <div class="logo">🏥</div>
+            <div class="app-title">Hospital Guide</div>
+            <div class="app-subtitle">For International Students</div>
+            
+            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+            <button class="lang-btn" onclick="setLanguage('ko')">한국어</button>
+        </div>
+
+        <!-- 2. Home Screen (Symptom Selection) -->
+        <div id="home-screen" class="screen">
+            <div class="header">
+                <div class="screen-title" id="txt-home-title">Select Symptom</div>
+            </div>
+            
+            <h2 class="greeting" id="txt-greeting">Where does it hurt?</h2>
+            <p class="instruction" id="txt-instruction">Select your symptom to find the right medical department.</p>
+
+            <div class="symptoms-grid" id="symptoms-container">
+                <!-- Symptoms will be injected here via JS -->
+            </div>
+
+            <div class="glass action-card" onclick="navigate('guide-screen')">
+                <div class="action-icon"><i class="fa-solid fa-book-medical"></i></div>
+                <div class="action-content">
+                    <h3 id="txt-guide-btn">How to use hospital</h3>
+                    <p id="txt-guide-desc">Step-by-step procedure guide</p>
+                </div>
+            </div>
+
+            <div class="glass action-card" onclick="navigate('conversation-screen')">
+                <div class="action-icon"><i class="fa-solid fa-comments"></i></div>
+                <div class="action-content">
+                    <h3 id="txt-conv-btn">Phrases</h3>
+                    <p id="txt-conv-desc">Useful Korean medical phrases</p>
+                </div>
+            </div>
+
+            <div class="emergency-btn" onclick="navigate('emergency-screen')">
+                <i class="fa-solid fa-truck-medical"></i> <span id="txt-emergency-btn">Emergency (119)</span>
+            </div>
+        </div>
+
+        <!-- 3. Recommendation & Hospital List Screen -->
+        <div id="result-screen" class="screen">
+            <div class="header">
+                <button class="back-btn" onclick="navigate('home-screen')"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="screen-title" id="txt-result-title">Recommended</div>
+            </div>
+
+            <div class="glass recommendation-box">
+                <div class="rec-title" id="txt-rec-dept">Recommended Department</div>
+                <div class="rec-dept" id="result-dept-name">Internal Medicine</div>
+            </div>
+
+            <h3 style="margin-bottom: 16px;" id="txt-nearby">Nearby Hospitals</h3>
+            
+            <div class="hospital-list" id="hospital-list-container">
+                <!-- Hospitals will be injected here -->
+            </div>
+        </div>
+
+        <!-- 4. Hospital Detail Screen -->
+        <div id="detail-screen" class="screen">
+            <div class="header">
+                <button class="back-btn" onclick="navigate('result-screen')"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="screen-title" id="txt-detail-title">Hospital Detail</div>
+            </div>
+
+            <!-- Map placeholder using a generic map image from unsplash -->
+            <div class="map-placeholder">
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Map" class="map-img">
+                <div style="position: absolute; color: var(--primary-color); font-size: 32px;"><i class="fa-solid fa-location-dot"></i></div>
+            </div>
+
+            <div class="glass detail-card">
+                <h2 class="hospital-name" id="detail-name" style="font-size: 24px; margin-bottom: 16px;">Hospital Name</h2>
+                <div class="hospital-info"><i class="fa-solid fa-location-dot"></i> <span id="detail-address">Address</span></div>
+                <div class="hospital-info"><i class="fa-solid fa-phone"></i> <span id="detail-phone">Phone</span></div>
+                <div class="hospital-info"><i class="fa-regular fa-clock"></i> <span id="detail-hours">Hours</span></div>
+                <span class="tag" id="detail-english" style="display: none;">English Available</span>
+            </div>
+
+            <button class="primary-btn" onclick="alert('Map routing feature would open here.')">
+                <i class="fa-solid fa-route"></i> <span id="txt-get-directions">Get Directions</span>
+            </button>
+        </div>
+
+        <!-- 5. Guide Screen -->
+        <div id="guide-screen" class="screen">
+            <div class="header">
+                <button class="back-btn" onclick="navigate('home-screen')"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="screen-title" id="txt-guide-title">Procedure Guide</div>
+            </div>
+
+            <div id="guide-container">
+                <!-- Guide steps injected here -->
+            </div>
+        </div>
+
+        <!-- 6. Conversation Screen -->
+        <div id="conversation-screen" class="screen">
+            <div class="header">
+                <button class="back-btn" onclick="navigate('home-screen')"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="screen-title" id="txt-conv-title">Medical Phrases</div>
+            </div>
+
+            <div id="conversation-container">
+                <!-- Conversations injected here -->
+            </div>
+        </div>
+
+        <!-- 7. Emergency Screen -->
+        <div id="emergency-screen" class="screen">
+            <div class="header">
+                <button class="back-btn" onclick="navigate('home-screen')"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="screen-title" id="txt-emerg-title">Emergency</div>
+            </div>
+
+            <div class="glass detail-card" style="text-align: center; border-color: #EF4444;">
+                <div style="font-size: 64px; color: #EF4444; margin-bottom: 16px;"><i class="fa-solid fa-phone-volume"></i></div>
+                <h1 style="color: #EF4444; font-size: 48px; margin-bottom: 16px;" id="emerg-number">119</h1>
+                <p id="emerg-desc" style="line-height: 1.6; margin-bottom: 24px;">Emergency description</p>
+                <button class="primary-btn" style="background: #EF4444;" onclick="window.location.href='tel:119'">
+                    <i class="fa-solid fa-phone"></i> <span id="txt-call-now">Call Now</span>
+                </button>
+            </div>
+
+            <div class="glass detail-card">
+                <h3 style="margin-bottom: 12px; color: var(--primary-color);" id="txt-er-title"><i class="fa-solid fa-hospital-user"></i> Emergency Room</h3>
+                <p id="er-info" style="line-height: 1.6; color: var(--text-muted);">ER info</p>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav" id="bottom-nav" style="display: none;">
+            <div class="nav-item active" onclick="navigate('home-screen')" id="nav-home">
+                <i class="fa-solid fa-house"></i>
+                <span id="txt-nav-home">Home</span>
+            </div>
+            <div class="nav-item" onclick="navigate('guide-screen')" id="nav-guide">
+                <i class="fa-solid fa-book-medical"></i>
+                <span id="txt-nav-guide">Guide</span>
+            </div>
+            <div class="nav-item" onclick="navigate('conversation-screen')" id="nav-conv">
+                <i class="fa-solid fa-comments"></i>
+                <span id="txt-nav-conv">Phrases</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
